@@ -196,13 +196,13 @@ class Activity implements IExtension {
 				case self::SUBJECT_REMOTE_SHARE_RECEIVED:
 				case self::SUBJECT_REMOTE_SHARE_UNSHARED:
 					return array(
-						0 => '',// We can not use 'username' since the user is in a different ownCloud
+						0 => 'federated_cloud_id',
 						//1 => 'file', in theory its a file, but it does not exist yet/anymore
 					);
 				case self::SUBJECT_REMOTE_SHARE_ACCEPTED:
 				case self::SUBJECT_REMOTE_SHARE_DECLINED:
 					return array(
-						0 => '',// We can not use 'username' since the user is in a different ownCloud
+						0 => 'federated_cloud_id',
 						1 => 'file',
 					);
 				case self::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED:
@@ -219,7 +219,7 @@ class Activity implements IExtension {
 				case self::SUBJECT_SHARED_GROUP_SELF:
 					return [
 						0 => 'file',
-						//1 => 'group', Group does not exist yet
+						1 => 'group',
 					];
 			}
 		}
@@ -245,6 +245,17 @@ class Activity implements IExtension {
 				case self::SUBJECT_SHARED_GROUP_SELF:
 					// Group by user/group
 					return 1;
+				case self::SUBJECT_REMOTE_SHARE_ACCEPTED:
+				case self::SUBJECT_REMOTE_SHARE_DECLINED:
+					// Group by file name
+					return 0;
+				case self::SUBJECT_REMOTE_SHARE_RECEIVED:
+				case self::SUBJECT_REMOTE_SHARE_UNSHARED:
+					// Group by file name
+					if (sizeof($activity['subjectparams_array']) === 2) {
+						// New received activity ownCloud 8.2+
+						return 1;
+					}
 			}
 		}
 
