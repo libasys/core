@@ -27,6 +27,7 @@ class Constants {
 
 	const SHARE_TYPE_USER = 0;
 	const SHARE_TYPE_GROUP = 1;
+	const SHARE_TYPE_GROUP_USER = 2;
 	const SHARE_TYPE_LINK = 3;
 	const SHARE_TYPE_EMAIL = 4;   // ToDo Check if it is still in use otherwise remove it
 	const SHARE_TYPE_CONTACT = 5; // ToDo Check if it is still in use otherwise remove it
